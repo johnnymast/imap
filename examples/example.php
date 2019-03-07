@@ -4,17 +4,17 @@ require 'autoload.php';
 use Redbox\Imap\Client;
 use  Dotenv\Dotenv;
 
-$dotenv = Dotenv::create(__DIR__);
-$dotenv->load();
+$dotenv = Dotenv::create(__DIR__)->load();
 
-
-/** @var \Redbox\Package\NewClass $instance */
-$instance = Redbox\Imap\Client::create([
-    'host' => 'imap.ziggo.nl',
-    'username' => 'johnnymast@ziggo.nl',
-
-    'port' => '143',
+$client = Client::create([
+    'host' => getenv('SERVER_HOST'),
+    'username' => getenv('SERVER_USERNAME'),
+    'password' => getenv('SERVER_PASSWORD'),
+    'secure' => getenv('SERVER_SECURE'),
+    'port' => getenv('SERVER_PORT'),
     'verbose' => true,
 ]);
+
+$client->authenticate();
 
 echo 'Done';

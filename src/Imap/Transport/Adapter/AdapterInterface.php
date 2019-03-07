@@ -8,6 +8,8 @@
 
 namespace Redbox\Imap\Transport\Adapter;
 
+use Redbox\Imap\Transport\TCPRequest;
+
 interface AdapterInterface
 {
     /**
@@ -21,9 +23,10 @@ interface AdapterInterface
     public function verifySupport();
 
     /**
+     * @param \Redbox\Imap\Transport\TCPRequest $request
      * @return mixed
      */
-    public function open();
+    public function open(TCPRequest $request);
 
     /**
      * @return mixed
@@ -31,20 +34,8 @@ interface AdapterInterface
     public function close();
 
     /**
-     * @param $address
-     * @param $method
-     * @param null $body
+     * @param string $message
      * @return mixed
      */
-    public function send($address, $method, $headers = null, $body = null);
-
-    /**
-     * @return mixed
-     */
-    public function getHttpStatusCode();
-
-    /**
-     * @return mixed
-     */
-    public function getContentType();
+    public function send($message = '');
 }

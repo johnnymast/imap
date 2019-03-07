@@ -1,13 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Redbox\Imap\Resources;
 
 use Redbox\Imap\Client;
+use Redbox\Imap\Transport\TCPRequest;
+use Redbox\Imap\Utils\Factories\TagFactory;
 
 class ResourceAbstract
 {
     /**
-     * @var Redbox\Imap\Client
+     * @var Client
      */
     private $client;
 
@@ -17,15 +19,22 @@ class ResourceAbstract
     private $resource_name;
 
     /**
+     * @var array|mixed
+     */
+    private $methods = [];
+
+    /**
      * ResourceAbstract constructor.
      *
      * @param Client $client
      * @param string $resource_name
+     * @param array $declaration
      */
-    public function __construct(Client $client, $resource_name)
+    public function __construct(Client $client, $resource_name, $declaration = [])
     {
         $this->client = $client;
         $this->resource_name = $resource_name;
+        $this->methods = $declaration['methods'] ?? [];
     }
 
     /**
@@ -35,18 +44,33 @@ class ResourceAbstract
      * @param array $arguments
      * @param array $body
      * @return mixed
-     * @throws Exception\AuthorizationRequiredException
-     * @throws Exception\RuntimeException
      */
     public function call($method, $arguments = [], $body = [])
     {
 
+        $options = $this->getClient()->getOptions();
+
+        print_r($options);
+        $request = new TCPRequest($options['host'], (int)$options['port'], (bool)$options['secure']);
+
+        $this->client->getTransport()->getAdapter()->open($request);
+
+        $this->client->getTransport()->send($request,
+            TagFactory::createTag('LOGIN '.$options['username'].' '.$options['password']));
+
+        $this->client->getTransport()->send($request, TagFactory::createTag('LIST "" "*"'));
+
+        var_dump(TagFactory::get());
+
+        TagFactory::clear();
+
+        print_r(TagFactory::get());
     }
 
     /**
      * @return Client
      */
-    public function getClient()
+    public function getClient(): Client
     {
         return $this->client;
     }
@@ -54,7 +78,7 @@ class ResourceAbstract
     /**
      * @return string
      */
-    public function getResourceName()
+    public function getResourceName(): string
     {
         return $this->resource_name;
     }
