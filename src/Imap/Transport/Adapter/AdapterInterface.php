@@ -38,4 +38,11 @@ interface AdapterInterface
      * @return mixed
      */
     public function send($message = '');
+
+    /**
+     * Read from the connection.
+     *
+     * @return mixed
+     */
+    public function read();
 }

@@ -49,6 +49,7 @@ class TagFactory
      */
     private static function createPrefix(): string
     {
+
         self::increase();
 
         return self::$prefixChar.self::$increment;

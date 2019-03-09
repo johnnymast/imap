@@ -5,7 +5,9 @@ namespace Redbox\Imap;
 use Redbox\Imap\Resources\AuthResource;
 use Redbox\Imap\Resources\ListResource;
 use Redbox\Imap\Transport\TCP;
+use Redbox\Imap\Transport\TCPRequest;
 use Redbox\Imap\Transport\TransportInterface;
+use Redbox\Imap\Utils\Factories\ResponseFactory;
 use Redbox\Imap\Utils\Factories\TagFactory;
 
 /**
@@ -48,49 +50,16 @@ class Client
                 ],
             ],
         ]);
+
+        $this->connect();
     }
 
-    public static function create($options)
+    public function connect()
     {
-        // TODO: Options object
-        print_r($options);
+        $options = $this->getOptions();
+        $request = new TCPRequest($options['host'], (int)$options['port'], (bool)$options['secure']);
 
-        return new static($options);
-    }
-
-    /**
-     * Client deconstructing.
-     */
-    public function __destruct()
-    {
-        $this->disconnect();
-    }
-
-    public function disconnect()
-    {
-        TagFactory::clear();
-        // TODO: end Transport
-    }
-
-    public function authenticate()
-    {
-        return $this->auth->authenticate();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAuthenticated()
-    {
-        return $this->authenticated;
-    }
-
-    /**
-     * @param bool $authenticated
-     */
-    public function setAuthenticated($authenticated)
-    {
-        $this->authenticated = $authenticated;
+        $this->getTransport()->connect($request);
     }
 
     /**
@@ -123,5 +92,49 @@ class Client
     public function setTransport(TransportInterface $transport)
     {
         $this->transport = $transport;
+    }
+
+    public static function create($options)
+    {
+        // TODO: Options object
+        return new static($options);
+    }
+
+    /**
+     * Client deconstructing.
+     */
+    public function __destruct()
+    {
+        $this->disconnect();
+    }
+
+    public function disconnect()
+    {
+        TagFactory::clear();
+        ResponseFactory::clear();
+
+        //$this->getTransport()->
+        // TODO: end Transport
+    }
+
+    public function authenticate()
+    {
+        return $this->auth->authenticate();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAuthenticated()
+    {
+        return $this->authenticated;
+    }
+
+    /**
+     * @param bool $authenticated
+     */
+    public function setAuthenticated($authenticated)
+    {
+        $this->authenticated = $authenticated;
     }
 }

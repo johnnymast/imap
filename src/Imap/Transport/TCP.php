@@ -12,6 +12,8 @@ class TCP implements TransportInterface
      */
     protected $client;
 
+    protected $request = null;
+
     /**
      * @var Adapter\AdapterInterface
      */
@@ -30,13 +32,11 @@ class TCP implements TransportInterface
         return $this->client;
     }
 
-    public function send(TCPRequest $request, $message = '')
+    public function connect(TCPRequest $request)
     {
+        $this->request = $request;
 
-        $data = $this->getAdapter()->send($message);
-        //$status_code = $this->getAdapter()->getHttpStatusCode();
-
-        //$this->getAdapter()->close();
+        $this->getAdapter()->open($this->request);
     }
 
     /**
@@ -68,5 +68,20 @@ class TCP implements TransportInterface
         if ($adapter->verifySupport() === true) {
             $this->adapter = $adapter;
         }
+    }
+
+    public function send($message = '')
+    {
+        return $this->getAdapter()->send($message);
+    }
+
+    public function read()
+    {
+        return $this->getAdapter()->read();
+    }
+
+    public function close()
+    {
+        return $this->getAdapter()->close();
     }
 }

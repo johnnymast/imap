@@ -5,9 +5,18 @@ namespace Redbox\Imap\Transport;
 interface TransportInterface
 {
     /**
-     * @param \Redbox\Imap\Transport\TCPRequest $request
      * @param string $message
      * @return mixed
      */
-    public function send(TCPRequest $request, $message = '');
+    public function send($message = '');
+
+    /**
+     * @return mixed
+     */
+    public function read();
+
+    /**
+     * @return mixed
+     */
+    public function close();
 }
