@@ -2,7 +2,9 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johnnymast/redbox-package-skeleton/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/johnnymast/redbox-package-skeleton/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/johnnymast/redbox-package-skeleton/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/johnnymast/redbox-package-skeleton/?branch=master)
 
-# Redbox-package-skeleton
+# Redbox-Imap
+
+This is the entire imap protocol in native php. No imap extention needed.
  
 NOT READY!!
 
