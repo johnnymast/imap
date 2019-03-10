@@ -2,6 +2,11 @@
 
 namespace Redbox\Imap\Utils;
 
+/**
+ * Class Tag
+ *
+ * @package Redbox\Imap\Utils
+ */
 class Tag
 {
     /**
@@ -44,6 +49,24 @@ class Tag
     }
 
     /**
+     * @return int|string
+     */
+    public function getCreatedAt(): int
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Return the tag as a string.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getPrefix().' '.$this->getCommand().self::CLRF;
+    }
+
+    /**
      * @return string
      */
     public function getPrefix(): string
@@ -57,18 +80,5 @@ class Tag
     public function getCommand(): string
     {
         return $this->command;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function getCreatedAt(): int
-    {
-        return $this->created_at;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getPrefix().' '.$this->getCommand().self::CLRF;
     }
 }

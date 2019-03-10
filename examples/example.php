@@ -1,8 +1,8 @@
 <?php
 require 'autoload.php';
 
+use Dotenv\Dotenv;
 use Redbox\Imap\Client;
-use  Dotenv\Dotenv;
 
 $dotenv = Dotenv::create(__DIR__)->load();
 
@@ -13,8 +13,11 @@ $client = Client::create([
     'secure' => getenv('SERVER_SECURE'),
     'port' => getenv('SERVER_PORT'),
     'verbose' => true,
+    'debug' => getenv('SERVER_DEBUG'),
 ]);
 
-$client->authenticate();
-
-echo 'Done';
+//$client->authenticate();
+$client->login();
+$client->select('INBOX');
+$client->list();
+$client->logout();

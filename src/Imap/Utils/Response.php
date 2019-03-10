@@ -2,6 +2,11 @@
 
 namespace Redbox\Imap\Utils;
 
+/**
+ * Class Response
+ *
+ * @package Redbox\Imap\Utils
+ */
 class Response
 {
     /**
@@ -17,24 +22,82 @@ class Response
     private $is_error = false;
 
     /**
-     * Response text
+     * @var bool
      */
-    private $respose_text = false;
+    private $is_ok = false;
 
     /**
-     * @var string
+     * @var bool
      */
-    private $data ='';
+    private $is_no = false;
+
+    /**
+     * Response text
+     */
+    private $response_text = '';
 
     /**
      * Response constructor.
      *
      * @param string $prefix
-     * @param string $data
+     * @param string $response_text
      */
-    public function __construct(string $prefix, string $data)
+    public function __construct(string $prefix, string $response_text = '')
     {
         $this->prefix = $prefix;
-        $this->data = $data;
+        $this->response_text = $response_text;
+
+        if (substr($response_text, 0, 3) === 'BAD') {
+            $this->is_error = true;
+        }
+
+        if (substr($response_text, 0, 1) !== 'OK') {
+            $this->is_ok = true;
+        }
+
+        if (substr($response_text, 0, 1) !== 'NO') {
+            $this->is_no = true;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isError(): bool
+    {
+
+        return $this->is_error;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOk(): bool
+    {
+        return $this->is_ok;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNo(): bool
+    {
+        return $this->is_no;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResponseText()
+    {
+        return $this->response_text;
     }
 }

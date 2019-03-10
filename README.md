@@ -10,3 +10,31 @@ NOT READY!!
 
 TODO
 
+## TODO
+
+- [ ] CAPABILITY Command
+- [ ] NOOP Command
+- [x] LOGOUT Command
+- [ ] STARTTLS Command
+- [ ] AUTHENTICATE Command
+- [x] LOGIN Command    
+- [ ] SELECT Command
+- [ ] EXAMINE Command   
+- [ ] CREATE Command
+- [ ] DELETE Command
+- [ ] RENAME Command
+- [ ] SUBSCRIBE Command  
+- [ ] UNSUBSCRIBE Command 
+- [ ] LIST Command   
+- [ ] LSUB Command   
+- [ ] STATUS Command 
+- [ ] APPEND Command 
+- [ ] CHECK Command    
+- [ ] CLOSE Command    
+- [ ] EXPUNGE Command   
+- [ ] SEARCH Command 
+- [ ] FETCH Command    
+- [ ] STORE Command    
+- [ ] COPY Command
+- [ ] UID Command    
+- [ ] X<atom> Command   
