@@ -3,6 +3,7 @@
 namespace Redbox\Imap\Resources;
 
 use Redbox\Imap\Utils\Factories\TagFactory;
+use Redbox\Imap\Utils\Response;
 
 /**
  * Class ListResource
@@ -14,11 +15,15 @@ class ListResource extends ResourceAbstract
     /**
      * Send the list command to the server.
      *
-     * @param array $arguments
+     *
+     * @param string $reference
+     * @param string $mailbox
+     *
+     * @return \Redbox\Imap\Utils\Response
      */
-    public function list($arguments = [])
+    public function list(string $reference = '', string $mailbox = ''): Response
     {
-        $tag = TagFactory::createTag('LIST "" ""');
+        $tag = TagFactory::createTag(sprintf('LIST  "%s" "%s"', $reference, $mailbox));
 
         $response = $this->call($tag);
 
@@ -28,5 +33,6 @@ class ListResource extends ResourceAbstract
         //if (!$this->getClient()->isAuthenticated()) {
         //
         //}
+        return $response;
     }
 }

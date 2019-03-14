@@ -6,9 +6,8 @@ use Redbox\Imap\Exceptions\MethodNotFoundException;
 use Redbox\Imap\Log\LogLevel;
 use Redbox\Imap\Log\NullLogger;
 use Redbox\Imap\Log\OutputLogger;
-use Redbox\Imap\Resources\AuthenticateResource;
-use Redbox\Imap\Resources\CapabilityResource;
 use Redbox\Imap\Resources\CreateResource;
+use Redbox\Imap\Resources\DeleteResource;
 use Redbox\Imap\Resources\ExamineResource;
 use Redbox\Imap\Resources\ListResource;
 use Redbox\Imap\Resources\LoginResource;
@@ -30,8 +29,11 @@ use Redbox\Imap\Utils\Response;
  * @package Redbox\Imap
  * @method Response login()
  * @method Response logout()
- * @method Response select(string $mailbox)
- * @method Response examine(string $mailbox)
+ * @method Response select(string $mailbox = '')
+ * @method Response examine(string $mailbox = '')
+ * //* @method Response list(string $reference = '', string $mailbox = '')
+ * @method Response create(string $mailbox = '')
+ * @method Response delete(string $mailbox = '')
  */
 class Client
 {
@@ -87,12 +89,12 @@ class Client
         $this->registerResource(new LoginResource($this, 'login', false))
             ->registerResource(new LogoutResource($this, 'logout', false))
             ->registerResource(new SelectResource($this, 'select', true))
-            ->registerResource(new ExamineResource($this, 'examine', true))
-
-            ->registerResource(new AuthenticateResource($this, 'authenticate', false))
-            ->registerResource(new CapabilityResource($this, 'capability', false))
+            ->registerResource(new ExamineResource($this, 'examine',
+                true))//->registerResource(new AuthenticateResource($this, 'authenticate', false))
+            //->registerResource(new CapabilityResource($this, 'capability', false))
             ->registerResource(new CreateResource($this, 'create', true))
-            ->registerResource(new ListResource($this, 'list', true));
+            ->registerResource(new DeleteResource($this, 'delete', true))
+            ->registerResource(new ListResource($this, 'list', true)); // NOT DONE
 
         $this->connect();
     }

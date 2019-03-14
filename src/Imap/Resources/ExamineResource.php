@@ -28,7 +28,7 @@ class ExamineResource extends ResourceAbstract
         $response = $this->call($tag);
 
         if ($response->isOk()) {
-            Logger::log(LogLevel::DEBUG, ' Examined mailbox {mailbox}', ['mailbox' => $mailbox]);
+            Logger::log(LogLevel::DEBUG, 'Examined mailbox {mailbox}', ['mailbox' => $mailbox]);
 
             $parsed = [];
 

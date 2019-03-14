@@ -20,11 +20,9 @@ $client = Client::make([
 $client->login();
 //$client->authenticate(); // UNKNOWN COMMAND
 //$cap = $client->capability(); // NEED TO PARSE CORRECTLY + Return value wrong
-//$client->examine('INBOX'); // NOTE DOWN IN CLIENT SELECTED MAILBOX
-
-//
-//$client->exemine('INBOX'); // UNSUPPORTED
-//$client->create('test_mailbox');
-//$client->list('INBOX'); // INCOMPLETE
+//$client->select('INBOX');
+//$client->exemine('INBOX');
+//$client->delete('somefolder');
+$client->list('', '*'); // INCOMPLETE + WHY DOESNT IT SELECT THE SELECTED MAILBOX?
 //$client->authenticate();
 $client->logout();

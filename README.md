@@ -22,8 +22,8 @@ TODO
 - [x] LOGIN Command    
 - [X] SELECT Command
 - [X] EXAMINE Command   
-- [ ] CREATE Command
-- [ ] DELETE Command
+- [X] CREATE Command
+- [X] DELETE Command
 - [ ] RENAME Command
 - [ ] SUBSCRIBE Command  
 - [ ] UNSUBSCRIBE Command 

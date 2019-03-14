@@ -27,10 +27,8 @@ class SelectResource extends ResourceAbstract
 
         $response = $this->call($tag);
 
-        $mailbox = new Mailbox();
-
         if ($response->isOk()) {
-            Logger::log(LogLevel::DEBUG, ' Selected mailbox {mailbox}', ['mailbox' => $mailbox]);
+            Logger::log(LogLevel::DEBUG, 'Selected mailbox {mailbox}', ['mailbox' => $mailbox]);
 
             $parsed = [];
 
@@ -41,8 +39,6 @@ class SelectResource extends ResourceAbstract
             $mailbox = new Mailbox($parsed);
             $response->setParsedData($mailbox);
         }
-
-        print_r($mailbox);
 
         return $response;
     }
