@@ -23,6 +23,10 @@ $client->login();
 //$client->select('INBOX');
 //$client->exemine('INBOX');
 //$client->delete('somefolder');
-$client->list('', '*'); // INCOMPLETE + WHY DOESNT IT SELECT THE SELECTED MAILBOX?
+//$client->create('somefolder');
+//$client->subscribe('somefolder');
+//$client->unsubscribe('somefolder'); // UNCOMFIRMLED TO WORK
+//$client->lsub("*"); // NEEDS TO BE PARSED
+//$client->list('', '*'); // INCOMPLETE + WHY DOESNT IT SELECT THE SELECTED MAILBOX?
 //$client->authenticate();
 $client->logout();

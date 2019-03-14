@@ -12,8 +12,11 @@ use Redbox\Imap\Resources\ExamineResource;
 use Redbox\Imap\Resources\ListResource;
 use Redbox\Imap\Resources\LoginResource;
 use Redbox\Imap\Resources\LogoutResource;
+use Redbox\Imap\Resources\LSubResource;
 use Redbox\Imap\Resources\ResourceAbstract;
 use Redbox\Imap\Resources\SelectResource;
+use Redbox\Imap\Resources\SubscribeResource;
+use Redbox\Imap\Resources\UnSubscribeResource;
 use Redbox\Imap\Transport\TCP;
 use Redbox\Imap\Transport\TCPRequest;
 use Redbox\Imap\Transport\TransportInterface;
@@ -34,6 +37,9 @@ use Redbox\Imap\Utils\Response;
  * //* @method Response list(string $reference = '', string $mailbox = '')
  * @method Response create(string $mailbox = '')
  * @method Response delete(string $mailbox = '')
+ * @method Response subscribe(string $mailbox = '')
+ * @method Response unsubscribe(string $mailbox = '')
+ * @method Response lsub(string $name = '', string $mailbox = '')
  */
 class Client
 {
@@ -94,7 +100,10 @@ class Client
             //->registerResource(new CapabilityResource($this, 'capability', false))
             ->registerResource(new CreateResource($this, 'create', true))
             ->registerResource(new DeleteResource($this, 'delete', true))
-            ->registerResource(new ListResource($this, 'list', true)); // NOT DONE
+            ->registerResource(new ListResource($this, 'list', true))// NOT DONE
+            ->registerResource(new SubscribeResource($this, 'subscribe', true))
+            ->registerResource(new UnSubscribeResource($this, 'unsubscribe', true))// NOT CONFIRMED YET
+            ->registerResource(new LSubResource($this, 'lsub', true)); // NOT CONFIRMED YET
 
         $this->connect();
     }

@@ -25,7 +25,7 @@ TODO
 - [X] CREATE Command
 - [X] DELETE Command
 - [ ] RENAME Command
-- [ ] SUBSCRIBE Command  
+- [X] SUBSCRIBE Command  
 - [ ] UNSUBSCRIBE Command 
 - [ ] LIST Command   
 - [ ] LSUB Command   
@@ -46,6 +46,8 @@ TODO
 
 - [ ] Test the AUTHENTICATE command against a server that supports it.
 - [ ] LIST needs to be properly parsed.
+- [ ] LSUB needs to be properly parsed.
 - [ ] CAPABILITY needs to be properly parsed.
 - [ ] Add option to options to keep the connection alive after one connection
+- [ ] UNSUBSCRIBE is unconfirmed to work alto implemented.
 

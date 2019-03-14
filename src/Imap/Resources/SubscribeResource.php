@@ -13,20 +13,20 @@ use Redbox\Imap\Utils\Response;
  *
  * @package Redbox\Imap\Resources
  */
-class CreateResource extends ResourceAbstract
+class SubscribeResource extends ResourceAbstract
 {
     /**
-     * Send the authenticate command to the imap server.
+     * Send the SUBSCRIBE command to the imap server.
      *
      * @param string $mailbox
      *
      * @return \Redbox\Imap\Utils\Response
      * @throws \Redbox\Imap\Exceptions\CommandNotSupportedException
      */
-    public function create($mailbox = ""): Response
+    public function subscribe($mailbox = ""): Response
     {
 
-        $tag = TagFactory::createTag(sprintf('CREATE %s', $mailbox));
+        $tag = TagFactory::createTag(sprintf('SUBSCRIBE  %s', $mailbox));
 
         $response = $this->call($tag);
 
@@ -35,12 +35,12 @@ class CreateResource extends ResourceAbstract
         }
 
         if ($response->isNo()) {
-            Logger::log(LogLevel::DEBUG, 'create failure: can\'t create mailbox with that name {name}',
+            Logger::log(LogLevel::DEBUG, 'subscribe failure: can\'t subscribe to that name {name}',
                 ['name' => $mailbox]);
         }
 
         if ($response->isOk()) {
-            Logger::log(LogLevel::DEBUG, 'create completed {name}', ['name' => $mailbox]);
+            Logger::log(LogLevel::DEBUG, 'subscribe completed {name}', ['name' => $mailbox]);
         }
 
         return $response;
