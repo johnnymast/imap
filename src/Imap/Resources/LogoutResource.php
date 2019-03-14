@@ -5,6 +5,7 @@ namespace Redbox\Imap\Resources;
 use Redbox\Imap\Log\LogLevel;
 use Redbox\Imap\Utils\Factories\TagFactory;
 use Redbox\Imap\Utils\Logger;
+use Redbox\Imap\Utils\Response;
 
 /**
  * Class LogoutResource
@@ -16,9 +17,9 @@ class LogoutResource extends ResourceAbstract
     /**
      * Send the logout command to the imap server.
      *
-     * @return bool
+     * @return Response
      */
-    public function logout(): bool
+    public function logout(): Response
     {
 
         $options = $this->getClient()->getOptions();
@@ -27,15 +28,13 @@ class LogoutResource extends ResourceAbstract
 
         $response = $this->call($tag);
 
-        $didLogout = $response->isOk();
-
-        if ($didLogout == true) {
+        if ($response->isOk() == true) {
             Logger::log(LogLevel::DEBUG, 'Logout successful for user {username}', ['username' => $options->username]);
             $this->getClient()->setAuthenticated(false);
         } else {
             Logger::log(LogLevel::DEBUG, 'Logout failed for user {username}', ['username' => $options->username]);
         }
 
-        return $didLogout;
+        return $response;
     }
 }

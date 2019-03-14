@@ -52,6 +52,7 @@ class Stream implements AdapterInterface
      * needed.
      *
      * @param \Redbox\Imap\Transport\TCPRequest $request
+     *
      * @return bool
      */
     public function open(TCPRequest $request)
@@ -99,6 +100,7 @@ class Stream implements AdapterInterface
 
     /**
      * @param string $message
+     *
      * @return bool|mixed
      */
     public function send($message = '')
@@ -169,7 +171,7 @@ class Stream implements AdapterInterface
         }
 
         if (strlen($data)) {
-            Logger::log(LogLevel::DEBUG, 'Incomming {data}', ['data' => rtrim($data, PHP_EOL)]);
+            Logger::log(LogLevel::DEBUG, 'Incoming {data}', ['data' => rtrim($data, PHP_EOL)]);
         }
 
         return $data;

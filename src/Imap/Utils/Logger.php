@@ -72,7 +72,10 @@ class Logger implements LoggerAwareInterface
     /**
      * Create a new logger.
      *
+     * @deprecated  Make it a class instead of interface
+     *
      * @param \Redbox\Imap\Log\LoggerInterface $logger
+     *
      * @return \Redbox\Imap\Utils\Logger
      */
     public static function create(LoggerInterface $logger)

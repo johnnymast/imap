@@ -20,8 +20,8 @@ TODO
 - [ ] STARTTLS Command
 - [ ] AUTHENTICATE Command
 - [x] LOGIN Command    
-- [ ] SELECT Command
-- [ ] EXAMINE Command   
+- [X] SELECT Command
+- [X] EXAMINE Command   
 - [ ] CREATE Command
 - [ ] DELETE Command
 - [ ] RENAME Command
@@ -39,4 +39,13 @@ TODO
 - [ ] STORE Command    
 - [ ] COPY Command
 - [ ] UID Command    
-- [ ] X<atom> Command   
+- [ ] X\<atom\> Command   
+
+
+## Todo 2
+
+- [ ] Test the AUTHENTICATE command against a server that supports it.
+- [ ] LIST needs to be properly parsed.
+- [ ] CAPABILITY needs to be properly parsed.
+- [ ] Add option to options to keep the connection alive after one connection
+

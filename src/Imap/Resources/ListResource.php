@@ -18,7 +18,7 @@ class ListResource extends ResourceAbstract
      */
     public function list($arguments = [])
     {
-        $tag = TagFactory::createTag('LIST "" "INBOX"');
+        $tag = TagFactory::createTag('LIST "" ""');
 
         $response = $this->call($tag);
 

@@ -6,6 +6,10 @@ use Redbox\Imap\Exceptions\MethodNotFoundException;
 use Redbox\Imap\Log\LogLevel;
 use Redbox\Imap\Log\NullLogger;
 use Redbox\Imap\Log\OutputLogger;
+use Redbox\Imap\Resources\AuthenticateResource;
+use Redbox\Imap\Resources\CapabilityResource;
+use Redbox\Imap\Resources\CreateResource;
+use Redbox\Imap\Resources\ExamineResource;
 use Redbox\Imap\Resources\ListResource;
 use Redbox\Imap\Resources\LoginResource;
 use Redbox\Imap\Resources\LogoutResource;
@@ -18,14 +22,16 @@ use Redbox\Imap\Utils\Factories\ResponseFactory;
 use Redbox\Imap\Utils\Factories\TagFactory;
 use Redbox\Imap\Utils\Logger;
 use Redbox\Imap\Utils\Options;
+use Redbox\Imap\Utils\Response;
 
 /**
  * Class Client
  *
  * @package Redbox\Imap
- * @method login()
- * @method logout()
- * @method list()
+ * @method Response login()
+ * @method Response logout()
+ * @method Response select(string $mailbox)
+ * @method Response examine(string $mailbox)
  */
 class Client
 {
@@ -81,6 +87,11 @@ class Client
         $this->registerResource(new LoginResource($this, 'login', false))
             ->registerResource(new LogoutResource($this, 'logout', false))
             ->registerResource(new SelectResource($this, 'select', true))
+            ->registerResource(new ExamineResource($this, 'examine', true))
+
+            ->registerResource(new AuthenticateResource($this, 'authenticate', false))
+            ->registerResource(new CapabilityResource($this, 'capability', false))
+            ->registerResource(new CreateResource($this, 'create', true))
             ->registerResource(new ListResource($this, 'list', true));
 
         $this->connect();
@@ -102,7 +113,8 @@ class Client
         $options = $this->getOptions();
         $request = new TCPRequest($options->host, $options->port, $options->secure);
 
-        if ($this->getTransport()->connect($request)) {
+        if ($this->getTransport()
+            ->connect($request)) {
             Logger::log(LogLevel::DEBUG, 'Connected to {host}:{port}',
                 ['host' => $options->host, 'port' => $options->port]);
 
@@ -148,11 +160,15 @@ class Client
     }
 
     /**
+     *
+     * @deprecated Find better name
+     *
      * @param $options
+     *
      * @return \Redbox\Imap\Client
      * @throws \Exception
      */
-    public static function create($options)
+    public static function make($options): Client
     {
         $options = new Options($options);
 
@@ -176,7 +192,8 @@ class Client
         TagFactory::clear();
         ResponseFactory::clear();
 
-        if ($this->getTransport()->close()) {
+        if ($this->getTransport()
+            ->close()) {
 
             Logger::log(LogLevel::DEBUG, 'Disconnected.');
             $this->setConnected(false);
@@ -189,7 +206,7 @@ class Client
     /**
      * @return bool
      */
-    public function isAuthenticated()
+    public function isAuthenticated(): bool
     {
         return $this->authenticated;
     }
@@ -239,7 +256,7 @@ class Client
     /**
      * @param bool $connected
      */
-    public function setConnected(bool $connected): void
+    public function setConnected(bool $connected)
     {
         $this->connected = $connected;
     }

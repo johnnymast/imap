@@ -4,6 +4,7 @@ namespace Redbox\Imap\Resources;
 
 use Redbox\Imap\Client;
 use Redbox\Imap\Utils\Factories\ResponseFactory;
+use Redbox\Imap\Utils\Response;
 use Redbox\Imap\Utils\Tag;
 
 /**
@@ -48,7 +49,7 @@ class ResourceAbstract
      * @param \Redbox\Imap\Utils\Tag $tag
      * @return bool|mixed|\Redbox\Imap\Utils\Response
      */
-    public function call(Tag $tag)
+    public function call(Tag $tag): Response
     {
         if ($this->isRequiringAuth() && ! $this->getClient()->isAuthenticated()) {
             return $this->getClient()->executeAfterLogin([$this, 'call'], [$tag]);
@@ -84,7 +85,7 @@ class ResourceAbstract
      * @param \Redbox\Imap\Utils\Tag $tag
      * @return bool|\Redbox\Imap\Utils\Response
      */
-    public function sendTag(Tag $tag)
+    public function sendTag(Tag $tag): Response
     {
         $this->client->getTransport()->send($tag);
 

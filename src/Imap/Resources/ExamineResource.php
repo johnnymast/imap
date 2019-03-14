@@ -14,23 +14,21 @@ use Redbox\Imap\Utils\Response;
  *
  * @package Redbox\Imap\Resources
  */
-class SelectResource extends ResourceAbstract
+class ExamineResource extends ResourceAbstract
 {
     /**
      * @param string $mailbox
      *
      * @return Response
      */
-    public function select(string $mailbox = ''): Response
+    public function examine(string $mailbox = ''): Response
     {
-        $tag = TagFactory::createTag(sprintf('SELECT "%s"', $mailbox));
+        $tag = TagFactory::createTag(sprintf('EXAMINE "%s"', $mailbox));
 
         $response = $this->call($tag);
 
-        $mailbox = new Mailbox();
-
         if ($response->isOk()) {
-            Logger::log(LogLevel::DEBUG, ' Selected mailbox {mailbox}', ['mailbox' => $mailbox]);
+            Logger::log(LogLevel::DEBUG, ' Examined mailbox {mailbox}', ['mailbox' => $mailbox]);
 
             $parsed = [];
 
@@ -41,8 +39,6 @@ class SelectResource extends ResourceAbstract
             $mailbox = new Mailbox($parsed);
             $response->setParsedData($mailbox);
         }
-
-        print_r($mailbox);
 
         return $response;
     }

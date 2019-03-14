@@ -7,6 +7,9 @@ use Redbox\Imap\Utils\Tag;
 class TagFactory
 {
     /**
+     * This is the increment for the tag prefix
+     * sending to the server.
+     *
      * @var int
      */
     private static $increment = 0;
@@ -19,6 +22,7 @@ class TagFactory
     private static $prefixChar = 'a';
 
     /**
+     * This is the tag sending history.
      *
      * @var array
      */

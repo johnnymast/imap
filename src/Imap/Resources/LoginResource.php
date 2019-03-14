@@ -5,6 +5,7 @@ namespace Redbox\Imap\Resources;
 use Redbox\Imap\Log\LogLevel;
 use Redbox\Imap\Utils\Factories\TagFactory;
 use Redbox\Imap\Utils\Logger;
+use Redbox\Imap\Utils\Response;
 
 /**
  * Class LoginResource
@@ -16,9 +17,9 @@ class LoginResource extends ResourceAbstract
     /**
      * Send the login command to the imap server.
      *
-     * @return bool
+     * @return Response
      */
-    public function login(): bool
+    public function login(): Response
     {
         if (! $this->getClient()->isAuthenticated()) {
             $client = $this->getClient();
@@ -29,11 +30,9 @@ class LoginResource extends ResourceAbstract
 
             $response = $this->sendTag($tag);
 
-            $didAuthenticate = $response->isOk();
+            $this->getClient()->setAuthenticated($response->isOk());
 
-            $this->getClient()->setAuthenticated($didAuthenticate);
-
-            if ($didAuthenticate == true) {
+            if ($response->isOk() == true) {
                 Logger::log(LogLevel::DEBUG, 'Authentication successful for user {username}',
                     ['username' => $options->username]);
             } else {
@@ -41,7 +40,7 @@ class LoginResource extends ResourceAbstract
                     ['username' => $options->username]);
             }
 
-            return $didAuthenticate;
+            return $response;
         }
     }
 }
