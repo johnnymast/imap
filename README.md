@@ -24,7 +24,7 @@ TODO
 - [X] EXAMINE Command   
 - [X] CREATE Command
 - [X] DELETE Command
-- [ ] RENAME Command
+- [X] RENAME Command
 - [X] SUBSCRIBE Command  
 - [ ] UNSUBSCRIBE Command 
 - [ ] LIST Command   

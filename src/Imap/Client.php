@@ -12,7 +12,7 @@ use Redbox\Imap\Resources\ExamineResource;
 use Redbox\Imap\Resources\ListResource;
 use Redbox\Imap\Resources\LoginResource;
 use Redbox\Imap\Resources\LogoutResource;
-use Redbox\Imap\Resources\LSubResource;
+use Redbox\Imap\Resources\RenameResource;
 use Redbox\Imap\Resources\ResourceAbstract;
 use Redbox\Imap\Resources\SelectResource;
 use Redbox\Imap\Resources\SubscribeResource;
@@ -103,7 +103,8 @@ class Client
             ->registerResource(new ListResource($this, 'list', true))// NOT DONE
             ->registerResource(new SubscribeResource($this, 'subscribe', true))
             ->registerResource(new UnSubscribeResource($this, 'unsubscribe', true))// NOT CONFIRMED YET
-            ->registerResource(new LSubResource($this, 'lsub', true)); // NOT CONFIRMED YET
+            //->registerResource(new LSubResource($this, 'lsub', true)); // NOT CONFIRMED YET
+            ->registerResource(new RenameResource($this, 'rename', true)); // NOT CONFIRMED YET
 
         $this->connect();
     }
