@@ -15,6 +15,7 @@ use Redbox\Imap\Resources\LogoutResource;
 use Redbox\Imap\Resources\RenameResource;
 use Redbox\Imap\Resources\ResourceAbstract;
 use Redbox\Imap\Resources\SelectResource;
+use Redbox\Imap\Resources\StatusResource;
 use Redbox\Imap\Resources\SubscribeResource;
 use Redbox\Imap\Resources\UnSubscribeResource;
 use Redbox\Imap\Transport\TCP;
@@ -34,12 +35,13 @@ use Redbox\Imap\Utils\Response;
  * @method Response logout()
  * @method Response select(string $mailbox = '')
  * @method Response examine(string $mailbox = '')
- * //* @method Response list(string $reference = '', string $mailbox = '')
+ * @method Response list(string $reference = '', string $mailbox = '')
  * @method Response create(string $mailbox = '')
  * @method Response delete(string $mailbox = '')
  * @method Response subscribe(string $mailbox = '')
  * @method Response unsubscribe(string $mailbox = '')
  * @method Response lsub(string $name = '', string $mailbox = '')
+ * @method Response status(string $string, string $data_status_items)
  */
 class Client
 {
@@ -104,7 +106,8 @@ class Client
             ->registerResource(new SubscribeResource($this, 'subscribe', true))
             ->registerResource(new UnSubscribeResource($this, 'unsubscribe', true))// NOT CONFIRMED YET
             //->registerResource(new LSubResource($this, 'lsub', true)); // NOT CONFIRMED YET
-            ->registerResource(new RenameResource($this, 'rename', true)); // NOT CONFIRMED YET
+            ->registerResource(new RenameResource($this, 'rename', true))// NOT CONFIRMED YET
+            ->registerResource(new StatusResource($this, 'status', true));
 
         $this->connect();
     }
@@ -199,6 +202,9 @@ class Client
         $this->disconnect();
     }
 
+    /**
+     *
+     */
     public function disconnect()
     {
         TagFactory::clear();
@@ -231,10 +237,18 @@ class Client
         $this->authenticated = $authenticated;
     }
 
+    /**
+     * @param null $method
+     * @param array $arguments
+     *
+     * @return bool|mixed
+     */
     public function executeAfterLogin($method = null, $arguments = [])
     {
         if ($method) {
-            if ($this->login()) {
+            $options = $this->getOptions();
+
+            if ($this->login($options->username, $options->password)) {
                 return call_user_func_array($method, $arguments);
             }
         }
@@ -242,6 +256,13 @@ class Client
         return false;
     }
 
+    /**
+     * @param $name
+     * @param $arguments
+     *
+     * @return bool|mixed
+     * @throws \Redbox\Imap\Exceptions\MethodNotFoundException
+     */
     public function __call($name, $arguments)
     {
         if (isset($this->resources[$name])) {

@@ -34,6 +34,8 @@ class TCP implements TransportInterface
     }
 
     /**
+     * Return the Client object.
+     *
      * @return \Redbox\Imap\Client
      */
     public function getClient(): Client
@@ -42,7 +44,10 @@ class TCP implements TransportInterface
     }
 
     /**
+     * Connect to the IMAP server.
+     *
      * @param \Redbox\Imap\Transport\TCPRequest $request
+     *
      * @return mixed
      * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
      */
@@ -50,7 +55,8 @@ class TCP implements TransportInterface
     {
         $this->request = $request;
 
-        return $this->getAdapter()->open($this->request);
+        return $this->getAdapter()
+            ->open($this->request);
     }
 
     /**
@@ -73,6 +79,7 @@ class TCP implements TransportInterface
      * Set the Transport adapter we will use to communicate with.
      *
      * @param Adapter\AdapterInterface $adapter
+     *
      * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
      */
     public function setAdapter($adapter)
@@ -89,30 +96,40 @@ class TCP implements TransportInterface
     }
 
     /**
+     * Send a message over to the IMAP server.
+     *
      * @param string $message
+     *
      * @return mixed
      * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
      */
     public function send($message = '')
     {
-        return $this->getAdapter()->send($message);
+        return $this->getAdapter()
+            ->send($message);
     }
 
     /**
+     * Read a message from the IMAP server.
+     *
      * @return mixed
      * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
      */
     public function read()
     {
-        return $this->getAdapter()->read();
+        return $this->getAdapter()
+            ->read();
     }
 
     /**
+     * Close the connection to the IMAP server.
+     *
      * @return mixed
      * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
      */
     public function close()
     {
-        return $this->getAdapter()->close();
+        return $this->getAdapter()
+            ->close();
     }
 }

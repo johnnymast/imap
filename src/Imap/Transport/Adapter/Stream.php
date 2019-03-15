@@ -99,6 +99,8 @@ class Stream implements AdapterInterface
     }
 
     /**
+     * Send data on the connection.
+     *
      * @param string $message
      *
      * @return bool|mixed
@@ -120,6 +122,8 @@ class Stream implements AdapterInterface
     }
 
     /**
+     * Read data from the connection.
+     *
      * @return bool|mixed|string
      */
     public function read()
@@ -165,13 +169,13 @@ class Stream implements AdapterInterface
             }
 
             if ($endtime and time() > $endtime) {
-                Logger::Log(LogLevel::DEBUG, __CLASS__.':'.__FUNCTION__.' endtime took to long.');
+                Logger::Log(LogLevel::VERBOSE, __CLASS__.':'.__FUNCTION__.' endtime took to long.');
                 break;
             }
         }
 
         if (strlen($data)) {
-            Logger::log(LogLevel::DEBUG, 'Incoming {data}', ['data' => rtrim($data, PHP_EOL)]);
+            Logger::log(LogLevel::VERBOSE, 'Incoming {data}', ['data' => rtrim($data, PHP_EOL)]);
         }
 
         return $data;

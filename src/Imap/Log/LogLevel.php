@@ -22,4 +22,6 @@ class LogLevel
     const INFO = 'info';
 
     const DEBUG = 'debug';
+
+    const VERBOSE = 'verbose';
 }

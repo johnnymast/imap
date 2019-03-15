@@ -2,6 +2,8 @@
 
 namespace Redbox\Imap\Utils\Generators;
 
+use Generator;
+
 class MailboxGenerator implements GeneratorInterface
 {
     /**
@@ -12,9 +14,9 @@ class MailboxGenerator implements GeneratorInterface
      *
      * @param string $data
      *
-     * @return \Generator
+     * @return Generator
      */
-    public static function parse($data = '')
+    public static function parse($data = ''): Generator
     {
         if (($str = strstr($data, 'FLAGS'))) {
             $left = strpos($str, '(');

@@ -15,14 +15,24 @@ use Redbox\Imap\Utils\Response;
 class LogoutResource extends ResourceAbstract
 {
     /**
-     * Send the logout command to the imap server.
+     * The LOGOUT command informs the server that the client is done with
+     * the connection.  The server MUST send a BYE untagged response
+     * before the (tagged) OK response, and then close the network
+     * connection.
+     *
+     * Example:
+     * C: A023 LOGOUT
+     * S: * BYE IMAP4rev1 Server logging out
+     * S: A023 OK LOGOUT completed
+     * (Server and client then close the connection) *
      *
      * @return Response
      */
     public function logout(): Response
     {
 
-        $options = $this->getClient()->getOptions();
+        $options = $this->getClient()
+            ->getOptions();
 
         $tag = TagFactory::createTag('LOGOUT');
 
@@ -30,7 +40,8 @@ class LogoutResource extends ResourceAbstract
 
         if ($response->isOk() == true) {
             Logger::log(LogLevel::DEBUG, 'Logout successful for user {username}', ['username' => $options->username]);
-            $this->getClient()->setAuthenticated(false);
+            $this->getClient()
+                ->setAuthenticated(false);
         } else {
             Logger::log(LogLevel::DEBUG, 'Logout failed for user {username}', ['username' => $options->username]);
         }

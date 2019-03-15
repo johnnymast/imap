@@ -29,7 +29,7 @@ TODO
 - [ ] UNSUBSCRIBE Command 
 - [ ] LIST Command   
 - [ ] LSUB Command   
-- [ ] STATUS Command 
+- [X] STATUS Command 
 - [ ] APPEND Command 
 - [ ] CHECK Command    
 - [ ] CLOSE Command    
@@ -50,4 +50,6 @@ TODO
 - [ ] CAPABILITY needs to be properly parsed.
 - [ ] Add option to options to keep the connection alive after one connection
 - [ ] UNSUBSCRIBE is unconfirmed to work alto implemented.
+- [ ] Add missing Argument exception to the commands (MissingArgumentException)
+
 
