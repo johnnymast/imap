@@ -17,7 +17,7 @@ $client = Client::make([
     'debug' => getenv('SERVER_DEBUG'),
 ]);
 
-$client->login();
+//$client->login();
 //$client->authenticate(); // UNKNOWN COMMAND
 //$cap = $client->capability(); // NEED TO PARSE CORRECTLY + Return value wrong
 //$client->select('INBOX');
@@ -26,7 +26,7 @@ $client->login();
 //$client->create('somefolder');
 //$client->subscribe('somefolder');
 //$client->unsubscribe('somefolder'); // UNCOMFIRMLED TO WORK
-//$status = $client->status('somefolder2', 'UIDNEXT MESSAGES uidvalidity');
+$status = $client->status('somefolder2', 'UIDNEXT MESSAGES uidvalidity');
 
 print_r($status);
 

@@ -113,7 +113,7 @@ class Stream implements AdapterInterface
         }
 
         if (fwrite($this->socket, $message)) {
-            Logger::log(LogLevel::DEBUG, 'Sending: {message}', ['message' => rtrim($message, PHP_EOL)]);
+            Logger::log(LogLevel::VERBOSE, 'Sending: {message}', ['message' => rtrim($message, PHP_EOL)]);
 
             return true;
         }
