@@ -87,7 +87,9 @@ class Stream implements AdapterInterface
     }
 
     /**
-     * Close the connection
+     * Close the connection.
+     *
+     * @return bool|mixed
      */
     public function close()
     {

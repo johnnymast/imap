@@ -26,6 +26,8 @@ class TCPRequest
     protected $secure = false;
 
     /**
+     * The connection URI.
+     *
      * @var string
      */
     protected $connection_uri = '';
@@ -46,14 +48,8 @@ class TCPRequest
     }
 
     /**
-     * @return string
-     */
-    public function getConnectionUri(): string
-    {
-        return $this->connection_uri;
-    }
-
-    /**
+     * Is this a secured connection?
+     *
      * @return bool
      */
     public function isSecure()
@@ -62,6 +58,8 @@ class TCPRequest
     }
 
     /**
+     * Return the host.
+     *
      * @return string
      */
     public function getHost(): string
@@ -70,10 +68,20 @@ class TCPRequest
     }
 
     /**
+     * Return the port.
+     *
      * @return int
      */
     public function getPort(): int
     {
         return $this->port;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConnectionUri(): string
+    {
+        return $this->connection_uri;
     }
 }

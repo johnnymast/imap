@@ -12,10 +12,13 @@ interface TransportInterface
     public function connect(TCPRequest $request);
 
     /**
+     * Send data on the connection.
+     *
      * @param string $message
+     *
      * @return mixed
      */
-    public function send($message = '');
+    public function send(string $message = '');
 
     /**
      * @return mixed
@@ -23,6 +26,8 @@ interface TransportInterface
     public function read();
 
     /**
+     * Close the connection.
+     *
      * @return mixed
      */
     public function close();

@@ -123,6 +123,9 @@ class Client
         return $this;
     }
 
+    /**
+     * Connect to the IMAP server.
+     */
     public function connect()
     {
         $options = $this->getOptions();
