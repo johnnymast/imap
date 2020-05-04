@@ -6,12 +6,16 @@ use Redbox\Imap\Exceptions\MethodNotFoundException;
 use Redbox\Imap\Log\LogLevel;
 use Redbox\Imap\Log\NullLogger;
 use Redbox\Imap\Log\OutputLogger;
+use Redbox\Imap\Resources\CapabilityResource;
+use Redbox\Imap\Resources\CheckResource;
+use Redbox\Imap\Resources\CloseResource;
 use Redbox\Imap\Resources\CreateResource;
 use Redbox\Imap\Resources\DeleteResource;
 use Redbox\Imap\Resources\ExamineResource;
 use Redbox\Imap\Resources\ListResource;
 use Redbox\Imap\Resources\LoginResource;
 use Redbox\Imap\Resources\LogoutResource;
+use Redbox\Imap\Resources\NoopResource;
 use Redbox\Imap\Resources\RenameResource;
 use Redbox\Imap\Resources\ResourceAbstract;
 use Redbox\Imap\Resources\SelectResource;
@@ -33,6 +37,9 @@ use Redbox\Imap\Utils\Response;
  * @package Redbox\Imap
  * @method Response login()
  * @method Response logout()
+ * @method Response close()
+ * @method Response check()
+ * @method Response noop()
  * @method Response select(string $mailbox = '')
  * @method Response examine(string $mailbox = '')
  * @method Response list(string $reference = '', string $mailbox = '')
@@ -97,17 +104,22 @@ class Client
         $this->registerResource(new LoginResource($this, 'login', false))
             ->registerResource(new LogoutResource($this, 'logout', false))
             ->registerResource(new SelectResource($this, 'select', true))
-            ->registerResource(new ExamineResource($this, 'examine',
-                true))//->registerResource(new AuthenticateResource($this, 'authenticate', false))
+            ->registerResource(new ExamineResource($this, 'examine', true))
+            //->registerResource(new AuthenticateResource($this, 'authenticate', false))
             //->registerResource(new CapabilityResource($this, 'capability', false))
             ->registerResource(new CreateResource($this, 'create', true))
             ->registerResource(new DeleteResource($this, 'delete', true))
             ->registerResource(new ListResource($this, 'list', true))// NOT DONE
             ->registerResource(new SubscribeResource($this, 'subscribe', true))
-            ->registerResource(new UnSubscribeResource($this, 'unsubscribe', true))// NOT CONFIRMED YET
+            ->registerResource(new UnsubscribeResource($this, 'unsubscribe', true))// NOT CONFIRMED YET
             //->registerResource(new LSubResource($this, 'lsub', true)); // NOT CONFIRMED YET
             ->registerResource(new RenameResource($this, 'rename', true))// NOT CONFIRMED YET
-            ->registerResource(new StatusResource($this, 'status', true));
+            ->registerResource(new StatusResource($this, 'status', true))
+        
+            ->registerResource(new CloseResource($this, 'close', true))
+            ->registerResource(new CheckResource($this, 'check', true))
+            ->registerResource(new CapabilityResource($this, 'capability', false))
+            ->registerResource(new NoopResource($this, 'noop', false));
 
         $this->connect();
     }

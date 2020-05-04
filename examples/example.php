@@ -4,6 +4,8 @@ require 'autoload.php';
 use Dotenv\Dotenv;
 use Redbox\Imap\Client;
 
+// https://tools.ietf.org/html/rfc3501#page-25
+
 $dotenv = Dotenv::create(__DIR__)
     ->load();
 
@@ -20,13 +22,20 @@ $client = Client::make([
 //$client->login();
 //$client->authenticate(); // UNKNOWN COMMAND
 //$cap = $client->capability(); // NEED TO PARSE CORRECTLY + Return value wrong
-//$client->select('INBOX');
-//$client->exemine('INBOX');
+//$client->subscribe('INBOX');
+
+//$client->examine('INBOX');
+$client->select('INBOX');
+$client->subscribe('INBOX.SubMap');
+//$client->unsubscribe('INBOX.SubMap');
 //$client->delete('somefolder');
 //$client->create('somefolder');
 //$client->subscribe('somefolder');
 //$client->unsubscribe('somefolder'); // UNCOMFIRMLED TO WORK
-$status = $client->status('somefolder2', 'UIDNEXT MESSAGES uidvalidity');
+$status = $client->noop();
+//$status = $client->capability();
+//$status = $client->check();
+//$status = $client->close();
 
 print_r($status);
 

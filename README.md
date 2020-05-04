@@ -14,8 +14,8 @@ TODO
 
 ## TODO
 
-- [ ] CAPABILITY Command
-- [ ] NOOP Command
+- [X] [Todo 2] CAPABILITY Command
+- [X] NOOP Command
 - [x] LOGOUT Command
 - [ ] STARTTLS Command
 - [ ] AUTHENTICATE Command
@@ -26,13 +26,13 @@ TODO
 - [X] DELETE Command
 - [X] RENAME Command
 - [X] SUBSCRIBE Command  
-- [ ] UNSUBSCRIBE Command 
+- [X] UNSUBSCRIBE Command 
 - [ ] LIST Command   
 - [ ] LSUB Command   
 - [X] STATUS Command 
 - [ ] APPEND Command 
-- [ ] CHECK Command    
-- [ ] CLOSE Command    
+- [X] CHECK Command    
+- [X] CLOSE Command    
 - [ ] EXPUNGE Command   
 - [ ] SEARCH Command 
 - [ ] FETCH Command    
