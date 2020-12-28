@@ -27,7 +27,7 @@ TODO
 - [X] RENAME Command
 - [X] SUBSCRIBE Command  
 - [X] UNSUBSCRIBE Command 
-- [ ] LIST Command   
+- [X] LIST Command   
 - [ ] LSUB Command   
 - [X] STATUS Command 
 - [ ] APPEND Command 

@@ -6,7 +6,7 @@ use Redbox\Imap\Log\LogLevel;
 use Redbox\Imap\Utils\Factories\TagFactory;
 use Redbox\Imap\Utils\Generators\MailboxGenerator;
 use Redbox\Imap\Utils\Logger;
-use Redbox\Imap\Utils\Mailbox;
+use Redbox\Imap\Utils\Responses\MailboxResponse;
 use Redbox\Imap\Utils\Response;
 
 /**
@@ -36,7 +36,7 @@ class ExamineResource extends ResourceAbstract
                 $parsed += $item;
             }
 
-            $mailbox = new Mailbox($parsed);
+            $mailbox = new MailboxResponse($parsed);
             $response->setParsedData($mailbox);
         }
 

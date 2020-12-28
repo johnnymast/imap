@@ -6,6 +6,7 @@ use Redbox\Imap\Exceptions\MethodNotFoundException;
 use Redbox\Imap\Log\LogLevel;
 use Redbox\Imap\Log\NullLogger;
 use Redbox\Imap\Log\OutputLogger;
+use Redbox\Imap\Resources\AuthenticateResource;
 use Redbox\Imap\Resources\CapabilityResource;
 use Redbox\Imap\Resources\CheckResource;
 use Redbox\Imap\Resources\CloseResource;

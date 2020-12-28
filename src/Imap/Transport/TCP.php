@@ -5,6 +5,7 @@ namespace Redbox\Imap\Transport;
 use Redbox\Imap\Client;
 use Redbox\Imap\Exceptions\AdapterNotSupportedAdapter;
 use Redbox\Imap\Transport\Adapter\Stream as DefaultAdapter;
+use Redbox\Imap\Transport\Adapter\AdapterInterface;
 
 class TCP implements TransportInterface
 {
@@ -16,17 +17,17 @@ class TCP implements TransportInterface
     /**
      * @var TCPRequest
      */
-    protected $request = null;
+    protected TCPRequest $request;
 
     /**
-     * @var Adapter\AdapterInterface
+     * @var AdapterInterface
      */
     protected $adapter;
 
     /**
      * TCP constructor.
      *
-     * @param \Redbox\Imap\Client $client
+     * @param  Client  $client
      */
     public function __construct(Client $client)
     {
@@ -36,7 +37,7 @@ class TCP implements TransportInterface
     /**
      * Return the Client object.
      *
-     * @return \Redbox\Imap\Client
+     * @return Client
      */
     public function getClient(): Client
     {

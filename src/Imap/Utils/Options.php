@@ -49,7 +49,7 @@ class Options
      *
      * @return bool
      */
-    public function validate()
+    public function validate(): bool
     {
         return (! empty($this->fields['host']) && ! empty($this->fields['username']) && ! empty($this->fields['password']));
     }

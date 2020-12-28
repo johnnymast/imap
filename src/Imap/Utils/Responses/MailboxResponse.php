@@ -1,15 +1,15 @@
 <?php
 
-namespace Redbox\Imap\Utils;
+namespace Redbox\Imap\Utils\Responses;
 
 use Redbox\Imap\Utils\Traits\ValueAwareTrait;
 
-class Mailbox
+class MailboxResponse
 {
     use ValueAwareTrait;
 
     /**
-     * Mailbox constructor.
+     * MailboxResponse constructor.
      *
      * @param array $fields
      */
