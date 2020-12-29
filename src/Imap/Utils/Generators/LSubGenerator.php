@@ -9,7 +9,7 @@ namespace Redbox\Imap\Utils\Generators;
  *
  * @package Redbox\Imap\Utils\Generators
  */
-class ListGenerator implements GeneratorInterface
+class LSubGenerator implements GeneratorInterface
 {
     
     
@@ -29,7 +29,7 @@ class ListGenerator implements GeneratorInterface
               'name' => '',
             ];
             
-            if (($str = stristr($data, 'LIST'))) {
+            if (($str = stristr($data, 'LSUB'))) {
                 $left = strpos($str, '(');
                 $right = strpos($str, ')');
                 

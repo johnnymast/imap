@@ -16,10 +16,10 @@ TODO
 
 - [X] [Todo 2] CAPABILITY Command
 - [X] NOOP Command
-- [x] LOGOUT Command
+- [X] LOGOUT Command
 - [ ] STARTTLS Command
 - [ ] AUTHENTICATE Command
-- [x] LOGIN Command    
+- [X] LOGIN Command    
 - [X] SELECT Command
 - [X] EXAMINE Command   
 - [X] CREATE Command
@@ -28,7 +28,7 @@ TODO
 - [X] SUBSCRIBE Command  
 - [X] UNSUBSCRIBE Command 
 - [X] LIST Command   
-- [ ] LSUB Command   
+- [X] LSUB Command   
 - [X] STATUS Command 
 - [ ] APPEND Command 
 - [X] CHECK Command    
@@ -39,7 +39,7 @@ TODO
 - [ ] STORE Command    
 - [ ] COPY Command
 - [ ] UID Command    
-- [ ] X\<atom\> Command   
+- [ ] X\<atom\> Command
 
 
 ## Todo 2

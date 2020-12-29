@@ -43,8 +43,10 @@ $client->examine('INBOX');
 
 //$client->rename('somefolder', 'somefolder2');
 //$client->lsub("*"); // NEEDS TO BE PARSED
-$x = $client->list('', '*'); // INCOMPLETE + WHY DOESNT IT SELECT THE SELECTED MAILBOX?
+//$client->lsub("*"); // NEEDS TO BE PARSED
+//$x = $client->list('', '*');
+$x = $client->lsub('', '*'); // INCOMPLETE + WHY DOESNT IT SELECT THE SELECTED MAILBOX?
 //$client->authenticate();
 $client->logout();
 
-//print_r($x->getParsedData());
+print_r($x->getParsedData());

@@ -14,6 +14,7 @@ use Redbox\Imap\Resources\CreateResource;
 use Redbox\Imap\Resources\DeleteResource;
 use Redbox\Imap\Resources\ExamineResource;
 use Redbox\Imap\Resources\ListResource;
+use Redbox\Imap\Resources\LSubResource;
 use Redbox\Imap\Resources\LoginResource;
 use Redbox\Imap\Resources\LogoutResource;
 use Redbox\Imap\Resources\NoopResource;
@@ -113,7 +114,7 @@ class Client
             ->registerResource(new ListResource($this, 'list', true))// NOT DONE
             ->registerResource(new SubscribeResource($this, 'subscribe', true))
             ->registerResource(new UnsubscribeResource($this, 'unsubscribe', true))// NOT CONFIRMED YET
-            //->registerResource(new LSubResource($this, 'lsub', true)); // NOT CONFIRMED YET
+            ->registerResource(new LSubResource($this, 'lsub', true)) // NOT CONFIRMED YET
             ->registerResource(new RenameResource($this, 'rename', true))// NOT CONFIRMED YET
             ->registerResource(new StatusResource($this, 'status', true))
         
@@ -124,8 +125,16 @@ class Client
 
         $this->connect();
     }
-
-    public function registerResource(ResourceAbstract $resource)
+    
+    
+    /**
+     * Register an API resource.
+     *
+     * @param  ResourceAbstract  $resource
+     *
+     * @return Client
+     */
+    public function registerResource(ResourceAbstract $resource): Client
     {
 
         if ($resource) {
