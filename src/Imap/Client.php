@@ -233,7 +233,6 @@ class Client
     public function disconnect()
     {
         TagFactory::clear();
-        ResponseFactory::clear();
 
         if ($this->getTransport()
             ->close()) {
@@ -313,8 +312,10 @@ class Client
 
     /**
      * @param bool $connected
+     *
+     * @return void
      */
-    public function setConnected(bool $connected)
+    public function setConnected(bool $connected): void
     {
         $this->connected = $connected;
     }

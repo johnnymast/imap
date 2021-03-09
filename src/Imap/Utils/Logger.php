@@ -55,10 +55,10 @@ class Logger implements LoggerAwareInterface
      * Log a message to the logger.
      *
      * @param $level
-     * @param $message
+     * @param string $message
      * @param array $context
      */
-    public static function log($level, $message, array $context = [])
+    public static function log($level, string $message, array $context = [])
     {
         if (! self::$instance) {
             self::create(new NullLogger());

@@ -9,28 +9,28 @@ class TCPRequest
      *
      * @var string
      */
-    protected $host = '';
+    protected string $host = '';
 
     /**
      * Server port
      *
      * @var int
      */
-    protected $port = 993;
+    protected int $port = 993;
 
     /**
      * TLS / SSL enabled.
      *
      * @var bool
      */
-    protected $secure = false;
+    protected bool $secure = false;
 
     /**
      * The connection URI.
      *
      * @var string
      */
-    protected $connection_uri = '';
+    protected string $connection_uri = '';
 
     /**
      * TCPRequest constructor.
@@ -45,16 +45,6 @@ class TCPRequest
         $this->port = $port;
         $this->secure = $secure;
         $this->connection_uri = ($this->isSecure() ? 'tls://' : '').$this->getHost().':'.$this->getPort();
-    }
-
-    /**
-     * Is this a secured connection?
-     *
-     * @return bool
-     */
-    public function isSecure()
-    {
-        return $this->secure;
     }
 
     /**
@@ -76,6 +66,17 @@ class TCPRequest
     {
         return $this->port;
     }
+
+    /**
+     * Is this a secured connection?
+     *
+     * @return bool
+     */
+    public function isSecure(): bool
+    {
+        return $this->secure;
+    }
+
 
     /**
      * @return string

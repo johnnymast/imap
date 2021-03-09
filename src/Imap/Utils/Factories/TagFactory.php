@@ -12,21 +12,21 @@ class TagFactory
      *
      * @var int
      */
-    private static $increment = 0;
+    private static int $increment = 0;
 
     /**
      * This is the prefix char for tags.
      *
      * @var string
      */
-    private static $prefixChar = 'a';
+    private static string $prefixChar = 'a';
 
     /**
      * This is the tag sending history.
      *
      * @var array
      */
-    private static $history = [];
+    private static array $history = [];
 
     /**
      * Create a command prefix.
@@ -53,7 +53,6 @@ class TagFactory
      */
     private static function createPrefix(): string
     {
-
         self::increase();
 
         return self::$prefixChar.self::$increment;
@@ -74,8 +73,10 @@ class TagFactory
      *
      * @param string $key
      * @param string $command
+     *
+     * @return void
      */
-    private static function remember($key = '', $command = '')
+    private static function remember($key = '', $command = ''): void
     {
         self::$history[$key] = $command;
     }
@@ -84,7 +85,7 @@ class TagFactory
      * Get all history or get one tag by prefix.
      *
      * @param null $prefix
-     * @return array|bool
+     * @return Tag|bool
      */
     public static function get($prefix = null)
     {
@@ -101,8 +102,10 @@ class TagFactory
 
     /**
      * Clear the tag history.
+     *
+     * @return void
      */
-    public static function clear()
+    public static function clear(): void
     {
         self::$history = [];
         self::$increment = 0;

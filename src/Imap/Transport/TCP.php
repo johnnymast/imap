@@ -4,15 +4,16 @@ namespace Redbox\Imap\Transport;
 
 use Redbox\Imap\Client;
 use Redbox\Imap\Exceptions\AdapterNotSupportedAdapter;
-use Redbox\Imap\Transport\Adapter\Stream as DefaultAdapter;
 use Redbox\Imap\Transport\Adapter\AdapterInterface;
+use Redbox\Imap\Transport\Adapter\FSockAdapter;
+use Redbox\Imap\Transport\Adapter\StreamAdapter;
 
 class TCP implements TransportInterface
 {
     /**
      * @var Client
      */
-    protected $client;
+    protected Client $client;
 
     /**
      * @var TCPRequest
@@ -22,12 +23,12 @@ class TCP implements TransportInterface
     /**
      * @var AdapterInterface
      */
-    protected $adapter;
+    protected ?AdapterInterface $adapter = null;
 
     /**
      * TCP constructor.
      *
-     * @param  Client  $client
+     * @param Client $client
      */
     public function __construct(Client $client)
     {
@@ -44,20 +45,18 @@ class TCP implements TransportInterface
         return $this->client;
     }
 
-    /**
-     * Connect to the IMAP server.
-     *
-     * @param \Redbox\Imap\Transport\TCPRequest $request
-     *
-     * @return mixed
-     * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
-     */
-    public function connect(TCPRequest $request)
-    {
-        $this->request = $request;
 
-        return $this->getAdapter()
-            ->open($this->request);
+    /**
+     * Return the default supported adapters.
+     *
+     * @return AdapterInterface[]
+     */
+    public function getDefaultAdapters(): array
+    {
+        return [
+            new StreamAdapter(),
+            new FSockAdapter(),
+        ];
     }
 
     /**
@@ -65,12 +64,18 @@ class TCP implements TransportInterface
      * If none is set we will try to work with Curl.
      *
      * @return Adapter\AdapterInterface
-     * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
+     * @throws AdapterNotSupportedAdapter
      */
-    public function getAdapter()
+    public function getAdapter(): ?AdapterInterface
     {
-        if (! $this->adapter) {
-            $this->setAdapter(new DefaultAdapter);
+        if (!$this->adapter) {
+            $defaultAdapters = $this->getDefaultAdapters();
+            foreach ($defaultAdapters as $adapter) {
+                if ($adapter->verifySupport() == true) {
+                    $this->setAdapter($adapter);
+                    break;
+                }
+            }
         }
 
         return $this->adapter;
@@ -81,9 +86,9 @@ class TCP implements TransportInterface
      *
      * @param Adapter\AdapterInterface $adapter
      *
-     * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
+     * @throws AdapterNotSupportedAdapter
      */
-    public function setAdapter($adapter)
+    public function setAdapter(AdapterInterface $adapter): void
     {
         /**
          * Not a adapter throws a BadFunctionCallException or true
@@ -92,8 +97,24 @@ class TCP implements TransportInterface
         if ($adapter->verifySupport() === true) {
             $this->adapter = $adapter;
         } else {
-            throw new AdapterNotSupportedAdapter('Adapter '.get_class($adapter).' is not supported on this installation');
+            throw new AdapterNotSupportedAdapter('Adapter ' . get_class($adapter) . ' is not supported on this installation');
         }
+    }
+
+    /**
+     * Connect to the IMAP server.
+     *
+     * @param \Redbox\Imap\Transport\TCPRequest $request
+     *
+     * @return mixed
+     * @throws AdapterNotSupportedAdapter
+     */
+    public function connect(TCPRequest $request)
+    {
+        $this->request = $request;
+
+        return $this->getAdapter()
+            ->open($this->request);
     }
 
     /**
@@ -102,7 +123,7 @@ class TCP implements TransportInterface
      * @param string $message
      *
      * @return mixed
-     * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
+     * @throws AdapterNotSupportedAdapter
      */
     public function send($message = '')
     {
@@ -114,7 +135,7 @@ class TCP implements TransportInterface
      * Read a message from the IMAP server.
      *
      * @return mixed
-     * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
+     * @throws AdapterNotSupportedAdapter
      */
     public function read()
     {
@@ -126,7 +147,7 @@ class TCP implements TransportInterface
      * Close the connection to the IMAP server.
      *
      * @return mixed
-     * @throws \Redbox\Imap\Exceptions\AdapterNotSupportedAdapter
+     * @throws AdapterNotSupportedAdapter
      */
     public function close()
     {

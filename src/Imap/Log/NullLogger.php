@@ -21,7 +21,7 @@ class NullLogger extends AbstractLogger
      *
      * @return void
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, string $message, array $context = [])
     {
         // noop
     }

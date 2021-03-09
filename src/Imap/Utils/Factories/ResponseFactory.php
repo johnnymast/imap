@@ -3,6 +3,7 @@
 namespace Redbox\Imap\Utils\Factories;
 
 use Redbox\Imap\Utils\Response;
+use Redbox\Imap\Utils\Tag;
 
 class ResponseFactory
 {
@@ -16,24 +17,25 @@ class ResponseFactory
      * to the server have a unique prefix. If the server responds with the same prefix it
      * will be tagged a response.
      *
-     * @param string $prefix
+     * @param string $prefix - The response prefix.
      *
-     * @return array|bool
+     * @return bool
      */
-    public static function isResponse($prefix = '')
+    public static function isResponse(string $prefix = ''): bool
     {
-        return (TagFactory::get($prefix));
+        $result = TagFactory::get($prefix);
+        return (($result instanceof Tag) == true || is_array($result) === true);
     }
 
     /**
      * Parse a response message and return a response object or if it fails false.
      *
-     * @param string $prefix
-     * @param string $data
+     * @param string $prefix - The response prefix.
+     * @param string $data - The data to parse.
      *
-     * @return bool|\Redbox\Imap\Utils\Response
+     * @return bool|Response
      */
-    public static function parseResponse($prefix = '', $data = '')
+    public static function parseResponse(string $prefix = '', string $data = '')
     {
         if (strlen($data) > 0) {
             $lines = explode(self::CLRF, $data);
@@ -45,21 +47,11 @@ class ResponseFactory
 
                     $response_line = substr($line, strlen($prefix) + 1);
 
-                    $response = new Response($prefix, trim($response_line), $data);
-
-                    return $response;
+                    return new Response($prefix, trim($response_line), $data);
                 }
             }
         }
 
         return false;
-    }
-
-    /**
-     *
-     */
-    public static function clear()
-    {
-        // TODO
     }
 }

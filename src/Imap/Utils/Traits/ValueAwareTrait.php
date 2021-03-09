@@ -9,7 +9,7 @@ trait ValueAwareTrait
      *
      * @var array
      */
-    private $fields = [];
+    private array $fields = [];
 
     /**
      * Its all magic right? This function will translate fields
@@ -51,7 +51,7 @@ trait ValueAwareTrait
      *
      * @return array
      */
-    public function __debugInfo()
+    public function __debugInfo(): array
     {
         return $this->fields;
     }
@@ -61,7 +61,7 @@ trait ValueAwareTrait
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->fields;
     }
@@ -71,7 +71,7 @@ trait ValueAwareTrait
      *
      * @return string
      */
-    public function toJson()
+    public function toJson(): string
     {
         return json_encode($this->fields);
     }

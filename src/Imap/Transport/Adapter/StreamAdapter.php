@@ -9,10 +9,12 @@
 namespace Redbox\Imap\Transport\Adapter;
 
 use BadFunctionCallException;
+use Redbox\Imap\Log\LogLevel;
 use Redbox\Imap\Transport\TCPRequest;
 use Redbox\Imap\Utils\Factories\ResponseFactory;
+use Redbox\Imap\Utils\Logger;
 
-class FSock implements AdapterInterface
+class StreamAdapter implements AdapterInterface
 {
     /**
      * @var resource
@@ -22,25 +24,24 @@ class FSock implements AdapterInterface
     /**
      * @var int
      */
-    protected $read_limit = 30;
+    protected int $read_limit = 30;
 
     /**
      * @var int
      */
-    protected $connect_timeout = 300;
+    protected int $connect_timeout = 300;
 
     /**
-     * Verify that we can support the fsockopen function.
+     * Verify that we can support the stream_socket_client function.
      * If this is not the case we will throw a BadFunctionCallException.
      *
      * @throws BadFunctionCallException
      * @return bool
      */
-    public function verifySupport()
+    public function verifySupport(): bool
     {
-        // FIXME: stream
-        if (! function_exists('fsockopen')) {
-            throw new \BadFunctionCallException('fsockopen is not supported.');
+        if (! function_exists('stream_socket_client')) {
+            throw new BadFunctionCallException('stream_socket_client is not supported.');
         }
 
         return true;
@@ -51,9 +52,10 @@ class FSock implements AdapterInterface
      * needed.
      *
      * @param \Redbox\Imap\Transport\TCPRequest $request
+     *
      * @return bool
      */
-    public function open(TCPRequest $request)
+    public function open(TCPRequest $request): bool
     {
         if (is_resource($this->socket)) {
             $this->close();
@@ -64,9 +66,9 @@ class FSock implements AdapterInterface
 
         $this->socket = stream_socket_client($request->getConnectionUri(), $errno, $errstr, $this->connect_timeout);
 
-        if (substr(PHP_OS, 0, 3) != 'WINS') { // WIN
+        if (substr(PHP_OS, 0, 3) != 'WIN') {
             $max = ini_get('max_execution_time');
-            // Don't bother if unlimited
+
             if (0 != $max and $this->read_limit > $max) {
                 @set_time_limit($this->read_limit);
             }
@@ -82,13 +84,14 @@ class FSock implements AdapterInterface
 
             return false;
         }
-        // TODO: stream_socket_enable_crypto
     }
 
     /**
-     * Close the connection
+     * Close the connection.
+     *
+     * @return bool
      */
-    public function close()
+    public function close(): bool
     {
         if (is_resource($this->socket)) {
             return fclose($this->socket);
@@ -98,22 +101,38 @@ class FSock implements AdapterInterface
     }
 
     /**
+     * Send data on the connection.
+     *
      * @param string $message
-     * @return mixed|void
+     *
+     * @return int|bool
      */
     public function send($message = '')
     {
 
-        if (is_resource($this->socket)) {
+        if (! is_resource($this->socket)) {
             return false;
         }
 
-        fwrite($this->socket, $message);
+        if (fwrite($this->socket, $message)) {
+            Logger::log(LogLevel::VERBOSE, 'Sending: {message}', ['message' => rtrim($message, PHP_EOL)]);
+
+            return true;
+        }
+
+        return false;
     }
 
+    /**
+     * Read data from the connection.
+     *
+     * @return bool|mixed|string
+     */
     public function read()
     {
-        if (is_resource($this->socket)) {
+        if (! is_resource($this->socket)) {
+            Logger::Log(LogLevel::DEBUG, __CLASS__.':'.__FUNCTION__.' Socket is not a resource');
+
             return false;
         }
 
@@ -128,35 +147,37 @@ class FSock implements AdapterInterface
         $selW = null;
 
         while (is_resource($this->socket) and ! feof($this->socket)) {
-            //Must pass vars in here as params are by reference
-            if (! stream_select($selR, $selW, $selW, $endtime)) {
-                echo "stream_select timeout";
 
+            if (! stream_select($selR, $selW, $selW, $endtime)) {
+                Logger::Log(LogLevel::DEBUG, __CLASS__.':'.__FUNCTION__.' Stream_select timed out');
                 break;
             }
 
-            //Deliberate noise suppression - errors are handled afterwards
             $str = @fgets($this->socket, 1024);
             $data .= $str;
 
             $prefix = explode(' ', $str);
 
             if (ResponseFactory::isResponse($prefix[0])) {
+                Logger::Log(LogLevel::DEBUG, __CLASS__.':'.__FUNCTION__.' Response detected.');
                 break;
             }
 
-            // Timed-out? Log and break
             $info = stream_get_meta_data($this->socket);
 
             if ($info['timed_out']) {
-                echo "stream_get_meta_data timeout";
+                Logger::Log(LogLevel::DEBUG, __CLASS__.':'.__FUNCTION__.' stream_get_meta_data timeout.');
                 break;
             }
-            // Now check if reads took too long
+
             if ($endtime and time() > $endtime) {
-                echo "endtime took to long";
+                Logger::Log(LogLevel::VERBOSE, __CLASS__.':'.__FUNCTION__.' endtime took to long.');
                 break;
             }
+        }
+
+        if (strlen($data)) {
+            Logger::log(LogLevel::VERBOSE, 'Incoming {data}', ['data' => rtrim($data, PHP_EOL)]);
         }
 
         return $data;

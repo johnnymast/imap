@@ -19,21 +19,21 @@ class Tag
      *
      * @var string
      */
-    private $prefix = '';
+    private string $prefix = '';
 
     /**
      * The tag command.
      *
      * @var string
      */
-    private $command = '';
+    private string $command = '';
 
     /**
      * The timestamp of when this tag was created.
      *
      * @var int
      */
-    private $created_at = 0;
+    private int $created_at = 0;
 
     /**
      * Tag constructor.

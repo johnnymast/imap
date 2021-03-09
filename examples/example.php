@@ -26,8 +26,8 @@ $client = Client::make([
 //$cap = $client->capability(); // NEED TO PARSE CORRECTLY + Return value wrong
 //$client->subscribe('INBOX');
 
-$client->examine('INBOX');
-//$client->select('INBOX');
+//$client->examine('INBOX');
+//$client->select('INBOX'); // Fatal error: Uncaught Error: Class 'Redbox\Imap\Utils\MailboxResponse'
 //$client->subscribe('INBOX.SubMap');
 //$client->unsubscribe('INBOX.SubMap');
 //$client->delete('somefolder');

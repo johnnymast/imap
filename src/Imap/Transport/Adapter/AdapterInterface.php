@@ -20,7 +20,7 @@ interface AdapterInterface
      * @throws BadFunctionCallException
      * @return bool
      */
-    public function verifySupport();
+    public function verifySupport(): bool;
 
     /**
      * @param \Redbox\Imap\Transport\TCPRequest $request
